@@ -1,4 +1,4 @@
-import {List} from "../list/List";
+import {List, Node} from "../list/List";
 
 type Value = {
     id: number;
@@ -8,41 +8,43 @@ type Value = {
 const first = {id: 1, name: 'первый'};
 const second = {id: 2, name: 'второй'};
 const third = {id: 3, name: 'третий'};
-const new_third = {id: 4, name: 'другой трейти'}ж
+const new_third = {id: 4, name: 'другой трейти'};
 
-interface INode<T> {
-    next: T;
-    prev: T;
-}
 describe("List", () => {
     const list = new List<Value>();
-    list.add({id: 1, name: 'первый'});
-    list.add({id: 2, name: 'второй'});
-    list.add({id: 3, name: 'третий'});
+    list.add(first);
+    list.add(second);
+    list.add(third);
+
+    const firstNode:Node<Value> = list.getNode(first);
+    const secondNode:Node<Value>  = list.getNode(second);
+    const thirdNode:Node<Value>  = list.getNode(third);
 
     it("Правильно считает длину", () => {
         expect(list.length).toBe(3);
     });
 
     it("Верны указатели next", () => {
-        expect((first as unknown as INode<Value>).next).toBe(second);
-        expect((second as unknown as INode<Value>).next).toBe(third);
+        expect(firstNode.next).toBe(secondNode);
+        expect(secondNode.next).toBe(thirdNode);
+        expect(thirdNode.next).toBe(undefined);
     });
 
     it("Верны указатели prev", () => {
-        expect((second as unknown as INode<Value>).prev).toBe(first);
-        expect((third as unknown as INode<Value>).next).toBe(second);
+        expect(firstNode.prev).toBe(undefined);
+        expect(secondNode.prev).toBe(firstNode);
+        expect(thirdNode.prev).toBe(secondNode);
     });
 
     it("Верен указатель head", () => {
-        expect(list.head).toBe(first);
+        expect(list.head).toBe(firstNode);
     });
 
     it("Верен указатель tail", () => {
-        expect(list.tail).toBe(third);
+        expect(list.tail).toBe(thirdNode);
     });
 
-    it("Находит элемент по индексу", () => {
+    it("Находит значение по индексу", () => {
         expect(list.find(0)).toBe(first);
         expect(list.find(1)).toBe(second);
         expect(list.find(2)).toBe(third);
