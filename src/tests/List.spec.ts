@@ -16,24 +16,24 @@ describe("List", () => {
     list.add(second);
     list.add(third);
 
-    const firstNode:Node<Value> = list.getNode(first);
-    const secondNode:Node<Value>  = list.getNode(second);
-    const thirdNode:Node<Value>  = list.getNode(third);
+    const firstNode:Node<Value> | null = list.getNode(first);
+    const secondNode:Node<Value> | null = list.getNode(second);
+    const thirdNode:Node<Value> | null = list.getNode(third);
 
     it("Правильно считает длину", () => {
         expect(list.length).toBe(3);
     });
 
     it("Верны указатели next", () => {
-        expect(firstNode.next).toBe(secondNode);
-        expect(secondNode.next).toBe(thirdNode);
-        expect(thirdNode.next).toBe(undefined);
+        expect(firstNode?.next).toBe(secondNode);
+        expect(secondNode?.next).toBe(thirdNode);
+        expect(thirdNode?.next).toBe(undefined);
     });
 
     it("Верны указатели prev", () => {
-        expect(firstNode.prev).toBe(undefined);
-        expect(secondNode.prev).toBe(firstNode);
-        expect(thirdNode.prev).toBe(secondNode);
+        expect(firstNode?.prev).toBe(undefined);
+        expect(secondNode?.prev).toBe(firstNode);
+        expect(thirdNode?.prev).toBe(secondNode);
     });
 
     it("Верен указатель head", () => {
@@ -55,6 +55,7 @@ describe("List", () => {
         expect(list.length).toBe(4);
         expect(list.find(0)).toBe(first);
         expect(list.find(1)).toBe(second);
+        // console.log('result :', list.print());
         expect(list.find(2)).toBe(new_third);
         expect(list.find(3)).toBe(third);
     });
